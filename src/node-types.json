@@ -108,7 +108,11 @@
           "named": true
         },
         {
-          "type": "end_markdown",
+          "type": "end_function_component",
+          "named": true
+        },
+        {
+          "type": "end_macro_component",
           "named": true
         },
         {
@@ -120,11 +124,19 @@
           "named": true
         },
         {
+          "type": "self_closing_function_component",
+          "named": true
+        },
+        {
           "type": "start_component",
           "named": true
         },
         {
-          "type": "start_markdown",
+          "type": "start_function_component",
+          "named": true
+        },
+        {
+          "type": "start_macro_component",
           "named": true
         },
         {
@@ -137,6 +149,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "component_name",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "directive",
@@ -201,7 +218,7 @@
     }
   },
   {
-    "type": "end_markdown",
+    "type": "end_function_component",
     "named": true,
     "fields": {},
     "children": {
@@ -209,7 +226,22 @@
       "required": true,
       "types": [
         {
-          "type": "component_name",
+          "type": "function_component_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "end_macro_component",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "macro_component_name",
           "named": true
         }
       ]
@@ -236,7 +268,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "expression_value",
@@ -286,6 +318,16 @@
     }
   },
   {
+    "type": "function_component_name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "macro_component_name",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "quoted_attribute_value",
     "named": true,
     "fields": {},
@@ -322,6 +364,33 @@
         },
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "self_closing_function_component",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "function_component_name",
           "named": true
         }
       ]
@@ -401,7 +470,7 @@
     }
   },
   {
-    "type": "start_markdown",
+    "type": "start_function_component",
     "named": true,
     "fields": {},
     "children": {
@@ -413,7 +482,30 @@
           "named": true
         },
         {
-          "type": "component_name",
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "function_component_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "start_macro_component",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute",
           "named": true
         },
         {
@@ -422,6 +514,10 @@
         },
         {
           "type": "expression",
+          "named": true
+        },
+        {
+          "type": "macro_component_name",
           "named": true
         }
       ]
@@ -542,7 +638,7 @@
     "named": false
   },
   {
-    "type": "...",
+    "type": ".",
     "named": false
   },
   {
@@ -562,7 +658,15 @@
     "named": false
   },
   {
+    "type": "<#",
+    "named": false
+  },
+  {
     "type": "</",
+    "named": false
+  },
+  {
+    "type": "</#",
     "named": false
   },
   {
@@ -571,10 +675,6 @@
   },
   {
     "type": ">",
-    "named": false
-  },
-  {
-    "type": "^",
     "named": false
   },
   {
@@ -592,10 +692,6 @@
   {
     "type": "case",
     "named": false
-  },
-  {
-    "type": "component_name",
-    "named": true
   },
   {
     "type": "else",
@@ -707,10 +803,6 @@
   },
   {
     "type": "{/",
-    "named": false
-  },
-  {
-    "type": "{}",
     "named": false
   },
   {

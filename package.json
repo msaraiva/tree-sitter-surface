@@ -6,12 +6,22 @@
   "scripts": {
     "test": "npx tree-sitter generate && npx tree-sitter test",
     "update_test": "npx tree-sitter generate && npx tree-sitter test -u",
-    "playground": "npx tree-sitter build-wasm && npx tree-sitter playground"
+    "playground": "npx tree-sitter build-wasm && npx tree-sitter playground",
+    "format": "prettier --trailing-comma es5 --write grammar.js",
+    "check_format": "prettier --trailing-comma es5 --check grammar.js"
   },
   "author": "Clay",
   "license": "MIT",
   "devDependencies": {
-    "nan": "^2.14.2",
-    "tree-sitter-cli": "^0.20.0"
-  }
+    "nan": "^2.16.0",
+    "prettier": "^2.7.1",
+    "tree-sitter-cli": "^0.20.7"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.surface",
+      "file-types": ["sface"],
+      "injection-regex": "^(sface)$"
+    }
+  ]
 }
