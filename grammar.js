@@ -39,6 +39,7 @@ module.exports = grammar({
         $.end_macro_component
       ),
       $.self_closing_component,
+      $.self_closing_macro_component,
       $.self_closing_function_component
     ),
 
@@ -63,7 +64,7 @@ module.exports = grammar({
 
     end_tag: $ => seq(
       '</',
-      $.tag_name,
+      $._tag_or_component_name,
       '>'
     ),
 
@@ -95,13 +96,26 @@ module.exports = grammar({
 
     end_component: $ => seq(
       '</',
-      $.component_name,
+      $._tag_or_component_name,
       '>'
     ),
 
     self_closing_component: $ => seq(
       '<',
       $.component_name,
+      repeat(
+        choice(
+          $.attribute,
+          $.expression,
+          $.directive
+        )
+      ),
+      '/>'
+    ),
+
+    self_closing_macro_component: $ => seq(
+      '<',
+      $.macro_component_name,
       repeat(
         choice(
           $.attribute,
@@ -127,7 +141,7 @@ module.exports = grammar({
 
     end_function_component: $ => seq(
       '</',
-      $.function_component_name,
+      $._tag_or_component_name,
       '>'
     ),
 
@@ -145,7 +159,7 @@ module.exports = grammar({
     ),
 
     start_macro_component: $ => seq(
-      '<#',
+      '<',
       $.macro_component_name,
       repeat(
         choice(
@@ -158,8 +172,8 @@ module.exports = grammar({
     ),
 
     end_macro_component: $ => seq(
-      '</#',
-      $.macro_component_name,
+      '</',
+      $._tag_or_component_name,
       '>'
     ),
 
@@ -268,13 +282,16 @@ module.exports = grammar({
     ),
 
     directive: $ => seq(
-      ':',
       $.directive_name,
-      '=',
-      choice(
-        $.attribute_value,
-        $.quoted_attribute_value,
-        $.expression
+      optional(
+        seq(
+          '=',
+          choice(
+            $.quoted_attribute_value,
+            $.attribute_value,
+            $.expression
+          )
+        )
       )
     ),
 
@@ -302,7 +319,17 @@ module.exports = grammar({
       seq(".", $._function)
     ),
 
-    macro_component_name: ($) => $._module,
+    macro_component_name: ($) => seq(
+      "#",
+      $._module
+    ),
+
+    _tag_or_component_name: ($) => choice(
+      $.tag_name,
+      $.component_name,
+      $.function_component_name,
+      $.macro_component_name
+    ),
 
     _module: ($) => /([A-Z][^\-<>{}!"'/=\s\.]*)(\.[A-Z][^\-<>{}!"'/=\s\.]*)*/,
 
@@ -310,26 +337,7 @@ module.exports = grammar({
 
     attribute_name: ($) => token(prec(-1, /[^:<>{}"'/=\s][^<>{}"'/=\s]*/)),
 
-    directive_name: $ => choice(
-      "if",
-      "show",
-      "let",
-      "args",
-      "values",
-      "hook",
-      "on-click",
-      "on-capture-click",
-      "on-blur",
-      "on-focus",
-      "on-change",
-      "on-submit",
-      "on-keydown",
-      "on-keyup",
-      "on-window-focus",
-      "on-window-blur",
-      "on-window-keydown",
-      "on-window-keyup",
-    ),
+    directive_name: ($) => token(prec(-1, /:[^<>{}"'/=\s][^<>{}"'/=\s]*/)),
 
     text: $ => /[^<>{}\s]([^<>{}]*[^<>{}\s])?/,
 }})

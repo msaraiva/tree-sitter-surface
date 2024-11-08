@@ -140,6 +140,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "self_closing_macro_component"
+        },
+        {
+          "type": "SYMBOL",
           "name": "self_closing_function_component"
         }
       ]
@@ -219,7 +223,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "tag_name"
+          "name": "_tag_or_component_name"
         },
         {
           "type": "STRING",
@@ -310,7 +314,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "component_name"
+          "name": "_tag_or_component_name"
         },
         {
           "type": "STRING",
@@ -328,6 +332,43 @@
         {
           "type": "SYMBOL",
           "name": "component_name"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "attribute"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "directive"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "/>"
+        }
+      ]
+    },
+    "self_closing_macro_component": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_component_name"
         },
         {
           "type": "REPEAT",
@@ -401,7 +442,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "function_component_name"
+          "name": "_tag_or_component_name"
         },
         {
           "type": "STRING",
@@ -451,7 +492,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "<#"
+          "value": "<"
         },
         {
           "type": "SYMBOL",
@@ -488,11 +529,11 @@
       "members": [
         {
           "type": "STRING",
-          "value": "</#"
+          "value": "</"
         },
         {
           "type": "SYMBOL",
-          "name": "macro_component_name"
+          "name": "_tag_or_component_name"
         },
         {
           "type": "STRING",
@@ -820,31 +861,40 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
           "type": "SYMBOL",
           "name": "directive_name"
-        },
-        {
-          "type": "STRING",
-          "value": "="
         },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "attribute_value"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "quoted_attribute_value"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "attribute_value"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "expression"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "type": "SYMBOL",
-              "name": "quoted_attribute_value"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "expression"
+              "type": "BLANK"
             }
           ]
         }
@@ -958,8 +1008,38 @@
       ]
     },
     "macro_component_name": {
-      "type": "SYMBOL",
-      "name": "_module"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_module"
+        }
+      ]
+    },
+    "_tag_or_component_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "tag_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "component_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_component_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_component_name"
+        }
+      ]
     },
     "_module": {
       "type": "PATTERN",
@@ -981,81 +1061,15 @@
       }
     },
     "directive_name": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "if"
-        },
-        {
-          "type": "STRING",
-          "value": "show"
-        },
-        {
-          "type": "STRING",
-          "value": "let"
-        },
-        {
-          "type": "STRING",
-          "value": "args"
-        },
-        {
-          "type": "STRING",
-          "value": "values"
-        },
-        {
-          "type": "STRING",
-          "value": "hook"
-        },
-        {
-          "type": "STRING",
-          "value": "on-click"
-        },
-        {
-          "type": "STRING",
-          "value": "on-capture-click"
-        },
-        {
-          "type": "STRING",
-          "value": "on-blur"
-        },
-        {
-          "type": "STRING",
-          "value": "on-focus"
-        },
-        {
-          "type": "STRING",
-          "value": "on-change"
-        },
-        {
-          "type": "STRING",
-          "value": "on-submit"
-        },
-        {
-          "type": "STRING",
-          "value": "on-keydown"
-        },
-        {
-          "type": "STRING",
-          "value": "on-keyup"
-        },
-        {
-          "type": "STRING",
-          "value": "on-window-focus"
-        },
-        {
-          "type": "STRING",
-          "value": "on-window-blur"
-        },
-        {
-          "type": "STRING",
-          "value": "on-window-keydown"
-        },
-        {
-          "type": "STRING",
-          "value": "on-window-keyup"
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": -1,
+        "content": {
+          "type": "PATTERN",
+          "value": ":[^<>{}\"'/=\\s][^<>{}\"'/=\\s]*"
         }
-      ]
+      }
     },
     "text": {
       "type": "PATTERN",

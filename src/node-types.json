@@ -128,6 +128,10 @@
           "named": true
         },
         {
+          "type": "self_closing_macro_component",
+          "named": true
+        },
+        {
           "type": "start_component",
           "named": true
         },
@@ -183,11 +187,6 @@
     }
   },
   {
-    "type": "directive_name",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "end_block",
     "named": true,
     "fields": {},
@@ -213,6 +212,18 @@
         {
           "type": "component_name",
           "named": true
+        },
+        {
+          "type": "function_component_name",
+          "named": true
+        },
+        {
+          "type": "macro_component_name",
+          "named": true
+        },
+        {
+          "type": "tag_name",
+          "named": true
         }
       ]
     }
@@ -226,7 +237,19 @@
       "required": true,
       "types": [
         {
+          "type": "component_name",
+          "named": true
+        },
+        {
           "type": "function_component_name",
+          "named": true
+        },
+        {
+          "type": "macro_component_name",
+          "named": true
+        },
+        {
+          "type": "tag_name",
           "named": true
         }
       ]
@@ -241,7 +264,19 @@
       "required": true,
       "types": [
         {
+          "type": "component_name",
+          "named": true
+        },
+        {
+          "type": "function_component_name",
+          "named": true
+        },
+        {
           "type": "macro_component_name",
+          "named": true
+        },
+        {
+          "type": "tag_name",
           "named": true
         }
       ]
@@ -255,6 +290,18 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "component_name",
+          "named": true
+        },
+        {
+          "type": "function_component_name",
+          "named": true
+        },
+        {
+          "type": "macro_component_name",
+          "named": true
+        },
         {
           "type": "tag_name",
           "named": true
@@ -391,6 +438,33 @@
         },
         {
           "type": "function_component_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "self_closing_macro_component",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attribute",
+          "named": true
+        },
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "macro_component_name",
           "named": true
         }
       ]
@@ -626,6 +700,10 @@
     "named": false
   },
   {
+    "type": "#",
+    "named": false
+  },
+  {
     "type": "'",
     "named": false
   },
@@ -646,10 +724,6 @@
     "named": false
   },
   {
-    "type": ":",
-    "named": false
-  },
-  {
     "type": "<",
     "named": false
   },
@@ -658,15 +732,7 @@
     "named": false
   },
   {
-    "type": "<#",
-    "named": false
-  },
-  {
     "type": "</",
-    "named": false
-  },
-  {
-    "type": "</#",
     "named": false
   },
   {
@@ -675,10 +741,6 @@
   },
   {
     "type": ">",
-    "named": false
-  },
-  {
-    "type": "args",
     "named": false
   },
   {
@@ -694,6 +756,10 @@
     "named": false
   },
   {
+    "type": "directive_name",
+    "named": true
+  },
+  {
     "type": "else",
     "named": false
   },
@@ -706,71 +772,11 @@
     "named": false
   },
   {
-    "type": "hook",
-    "named": false
-  },
-  {
     "type": "if",
     "named": false
   },
   {
-    "type": "let",
-    "named": false
-  },
-  {
     "type": "match",
-    "named": false
-  },
-  {
-    "type": "on-blur",
-    "named": false
-  },
-  {
-    "type": "on-capture-click",
-    "named": false
-  },
-  {
-    "type": "on-change",
-    "named": false
-  },
-  {
-    "type": "on-click",
-    "named": false
-  },
-  {
-    "type": "on-focus",
-    "named": false
-  },
-  {
-    "type": "on-keydown",
-    "named": false
-  },
-  {
-    "type": "on-keyup",
-    "named": false
-  },
-  {
-    "type": "on-submit",
-    "named": false
-  },
-  {
-    "type": "on-window-blur",
-    "named": false
-  },
-  {
-    "type": "on-window-focus",
-    "named": false
-  },
-  {
-    "type": "on-window-keydown",
-    "named": false
-  },
-  {
-    "type": "on-window-keyup",
-    "named": false
-  },
-  {
-    "type": "show",
     "named": false
   },
   {
@@ -783,10 +789,6 @@
   },
   {
     "type": "unless",
-    "named": false
-  },
-  {
-    "type": "values",
     "named": false
   },
   {
