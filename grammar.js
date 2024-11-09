@@ -316,7 +316,7 @@ module.exports = grammar({
 
     function_component_name: ($) => seq(
       optional($._module),
-      seq(".", $._function)
+      seq(".", optional($._function))
     ),
 
     macro_component_name: ($) => seq(

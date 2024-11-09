@@ -1000,8 +1000,16 @@
               "value": "."
             },
             {
-              "type": "SYMBOL",
-              "name": "_function"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_function"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         }
