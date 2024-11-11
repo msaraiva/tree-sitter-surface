@@ -7,6 +7,7 @@ module.exports = grammar({
     _node: $ => choice(
       $.tag,
       $.component,
+      $.slot,
       $.text,
       $.expression,
       $.block,
@@ -29,6 +30,12 @@ module.exports = grammar({
         $.end_component
       ),
       $.self_closing_component,
+    ),
+
+    slot: $ => seq(
+      $.start_slot,
+      repeat($._node),
+      $.end_slot
     ),
 
     block: $ => seq(
@@ -63,6 +70,19 @@ module.exports = grammar({
       '>'
     ),
 
+    start_slot: $ => seq(
+      '<',
+      $.slot_name,
+      repeat(
+        choice(
+          $.attribute,
+          $.expression,
+          $.directive
+        )
+      ),
+      '>'
+    ),
+
     end_tag: $ => seq(
       '</',
       $._tag_or_component_name,
@@ -72,6 +92,12 @@ module.exports = grammar({
     end_component: $ => seq(
       '</',
       $._tag_or_component_name,
+      '>'
+    ),
+
+    end_slot: $ => seq(
+      '</',
+      $.slot_name,
       '>'
     ),
 
@@ -233,6 +259,8 @@ module.exports = grammar({
     attribute_value: $ => /[^<>{}"'=\s]+/,
 
     tag_name: $ => /[a-z]+[^\-<>{}!"'/=\s]*/,
+
+    slot_name: $ => /:[a-z]+[^\-<>{}!"'/=\s]*/,
 
     component_name: ($) => /[#.A-Z][^\-<>{}!"'/=\s]*/,
 

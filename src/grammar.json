@@ -21,6 +21,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "slot"
+        },
+        {
+          "type": "SYMBOL",
           "name": "text"
         },
         {
@@ -92,6 +96,26 @@
         {
           "type": "SYMBOL",
           "name": "self_closing_component"
+        }
+      ]
+    },
+    "slot": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "start_slot"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_node"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "end_slot"
         }
       ]
     },
@@ -198,6 +222,43 @@
         }
       ]
     },
+    "start_slot": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "slot_name"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "attribute"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "directive"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        }
+      ]
+    },
     "end_tag": {
       "type": "SEQ",
       "members": [
@@ -225,6 +286,23 @@
         {
           "type": "SYMBOL",
           "name": "_tag_or_component_name"
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        }
+      ]
+    },
+    "end_slot": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "</"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "slot_name"
         },
         {
           "type": "STRING",
@@ -730,6 +808,10 @@
     "tag_name": {
       "type": "PATTERN",
       "value": "[a-z]+[^\\-<>{}!\"'/=\\s]*"
+    },
+    "slot_name": {
+      "type": "PATTERN",
+      "value": ":[a-z]+[^\\-<>{}!\"'/=\\s]*"
     },
     "component_name": {
       "type": "PATTERN",

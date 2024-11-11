@@ -1,0 +1,24 @@
+================================================================================
+Slots
+================================================================================
+
+<Card>
+  <:header>
+    HEADER
+  </:header>
+</Card>
+
+--------------------------------------------------------------------------------
+
+(fragment
+  (component
+    (start_component
+      (component_name))
+    (slot
+      (start_slot
+        (slot_name))
+      (text)
+      (end_slot
+        (slot_name)))
+    (end_component
+      (component_name))))
