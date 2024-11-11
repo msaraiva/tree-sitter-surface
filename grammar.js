@@ -28,19 +28,7 @@ module.exports = grammar({
         repeat($._node),
         $.end_component
       ),
-      seq(
-        $.start_function_component,
-        repeat($._node),
-        $.end_function_component
-      ),
-      seq(
-        $.start_macro_component,
-        optional($.text),
-        $.end_macro_component
-      ),
       $.self_closing_component,
-      $.self_closing_macro_component,
-      $.self_closing_function_component
     ),
 
     block: $ => seq(
@@ -62,7 +50,26 @@ module.exports = grammar({
       '>'
     ),
 
+    start_component: $ => seq(
+      '<',
+      $.component_name,
+      repeat(
+        choice(
+          $.attribute,
+          $.expression,
+          $.directive
+        )
+      ),
+      '>'
+    ),
+
     end_tag: $ => seq(
+      '</',
+      $._tag_or_component_name,
+      '>'
+    ),
+
+    end_component: $ => seq(
       '</',
       $._tag_or_component_name,
       '>'
@@ -81,25 +88,6 @@ module.exports = grammar({
       '/>'
     ),
 
-    start_component: $ => seq(
-      '<',
-      $.component_name,
-      repeat(
-        choice(
-          $.attribute,
-          $.expression,
-          $.directive
-        )
-      ),
-      '>'
-    ),
-
-    end_component: $ => seq(
-      '</',
-      $._tag_or_component_name,
-      '>'
-    ),
-
     self_closing_component: $ => seq(
       '<',
       $.component_name,
@@ -113,70 +101,6 @@ module.exports = grammar({
       '/>'
     ),
 
-    self_closing_macro_component: $ => seq(
-      '<',
-      $.macro_component_name,
-      repeat(
-        choice(
-          $.attribute,
-          $.expression,
-          $.directive
-        )
-      ),
-      '/>'
-    ),
-
-    start_function_component: $ => seq(
-      '<',
-      $.function_component_name,
-      repeat(
-        choice(
-          $.attribute,
-          $.expression,
-          $.directive
-        )
-      ),
-      '>'
-    ),
-
-    end_function_component: $ => seq(
-      '</',
-      $._tag_or_component_name,
-      '>'
-    ),
-
-    self_closing_function_component: $ => seq(
-      '<',
-      $.function_component_name,
-      repeat(
-        choice(
-          $.attribute,
-          $.expression,
-          $.directive
-        )
-      ),
-      '/>'
-    ),
-
-    start_macro_component: $ => seq(
-      '<',
-      $.macro_component_name,
-      repeat(
-        choice(
-          $.attribute,
-          $.expression,
-          $.directive
-        )
-      ),
-      '>'
-    ),
-
-    end_macro_component: $ => seq(
-      '</',
-      $._tag_or_component_name,
-      '>'
-    ),
-
     expression: ($) =>
       seq(
         "{",
@@ -188,9 +112,7 @@ module.exports = grammar({
     _expression_value: ($) =>
       choice(/[^{}]+/, seq("{", optional($._expression_value), "}")),
 
-    expression_value: ($) => repeat1($._code),
-
-    _code: ($) => /[^%\s]+|[%\s]/,
+    expression_value: ($) => $._expression_value,
 
     comment: $ => choice(
       $._public_comment,
@@ -312,28 +234,12 @@ module.exports = grammar({
 
     tag_name: $ => /[a-z]+[^\-<>{}!"'/=\s]*/,
 
-    component_name: ($) => $._module,
-
-    function_component_name: ($) => seq(
-      optional($._module),
-      seq(".", optional($._function))
-    ),
-
-    macro_component_name: ($) => seq(
-      "#",
-      $._module
-    ),
+    component_name: ($) => /[#.A-Z][^\-<>{}!"'/=\s]*/,
 
     _tag_or_component_name: ($) => choice(
       $.tag_name,
       $.component_name,
-      $.function_component_name,
-      $.macro_component_name
     ),
-
-    _module: ($) => /([A-Z][^\-<>{}!"'/=\s\.]*)(\.[A-Z][^\-<>{}!"'/=\s\.]*)*/,
-
-    _function: ($) => /[a-z][^\-<>{}!"'/=\s\.]*/,
 
     attribute_name: ($) => token(prec(-1, /[^:<>{}"'/=\s][^<>{}"'/=\s]*/)),
 
